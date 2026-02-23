@@ -23,9 +23,9 @@ We evaluate decision trees, logistic regression, SVMs, random forests, gradient 
 
 ```
 MLPolyRoots/
-├── 01_Multi-model_evaluation.ipynb    # Model screening across degrees 2–5
-├── 02_NNs_and_Distillation.ipynb      # Neural networks, feature engineering, distillation
-├── 03_Symbolic_Regression.ipynb       # PySR experiments across degrees 2–5
+├── 01_Multi-Model_Evaluation.ipynb    # Model screening across degrees 2–5
+├── 02_NNs_Distillation_and_Extrapolation.ipynb      # Neural networks, feature engineering, distillation, and extrapolation tests
+├── 03_Symbolic_Regression_Evaluation.ipynb       # PySR experiments across degrees 2–5
 ├── requirements.txt                   # Python dependencies
 ├── LICENSE                            # MIT License
 └── README.md
@@ -33,16 +33,16 @@ MLPolyRoots/
 
 ### Notebook Descriptions
 
-**`01_Multi-model_evaluation.ipynb`**  
+**`01_Multi-Model_Evaluation.ipynb`**  
 Evaluates all model classes (CART, logistic regression, SVM, random forest, gradient boosting, XGBoost, neural networks) on polynomial root classification for degrees 2–5. Includes cross-validation with SMOTE balancing, SHAP analysis, PCA visualization, and multi-seed statistical comparison. This notebook produces the screening results reported in Table 2 of the paper.
 
-**`02_NNs_and_Distillation.ipynb`**  
+**`02_NNs_Distillation_and_Extrapolation.ipynb`**  
 Three-part notebook:
 1. *Degree 2–4 validation*: Confirms that decision trees can recover known algebraic discriminants (quadratic, cubic, quartic) when provided appropriate invariant features.
 2. *Quintic feature engineering*: Implements all 63 features from six classical methods (Sturm sequences, Descartes' rule, Newton's sums, critical points, hybrid symbolic invariants, decomposition features) and evaluates each group individually and combined.
 3. *Knowledge distillation*: Trains neural networks on the full feature set, distills into decision trees, and performs SHAP-based feature importance analysis identifying Crit8 as the dominant feature.
 
-**`03_Symbolic_Regression.ipynb`**  
+**`03_Symbolic_Regression_Evaluation.ipynb`**  
 Runs PySR (genetic programming–based symbolic regression) on degrees 2–5 to test whether symbolic methods can discover algebraic classification rules directly from coefficients. Demonstrates the "complexity cliff"—near-perfect results on quadratics, rapid degradation for higher degrees.
 
 ## Getting Started
@@ -72,9 +72,9 @@ Open each notebook and run all cells. Expected runtimes on a standard machine:
 
 | Notebook | Approximate Runtime |
 |----------|-------------------|
-| `01_Multi-model_evaluation.ipynb` | 30–60 min |
-| `02_NNs_and_Distillation.ipynb` | 20–40 min |
-| `03_Symbolic_Regression.ipynb` | 10–30 min (varies with PySR timeout settings) |
+| `01_Multi-Model_Evaluation.ipynb` | 40 min |
+| `02_NNs_Distillation_and_Extrapolation.ipynb` | 300 min |
+| `03_Symbolic_Regression_Evaluation.ipynb` | 40 min (varies with PySR timeout settings) |
 
 Runtimes will vary depending on hardware. The symbolic regression notebook is particularly sensitive to CPU speed, as PySR runs evolutionary search in Julia.
 
@@ -86,16 +86,16 @@ All experiments use fixed random seeds (documented in each notebook) for the dat
 
 | Model | Raw Coefficients | With Crit8 |
 |-------|-----------------|------------|
-| Neural Networks | 84.2% ± 5.0% | 88.7% ± 5.0% |
-| Decision Trees | 60.7% ± 3.8% | 86.7% ± 5.2% |
+| Neural Networks | 84.3% ± 0.9% | 89.9% ± 1.4% |
+| Decision Trees | 59.9% ± 0.9% | 84.2% ± 1.2% |
 
 Distillation metrics (63 engineered features → decision tree):
 
 | Metric | Value |
 |--------|-------|
-| NN test accuracy | 85.6% ± 4.1% |
-| Tree fidelity to NN | 98.9% ± 0.5% |
-| Tree standalone accuracy | 84.9% ± 5.3% |
+| NN test accuracy | 87.0% ± 1.2% |
+| Tree fidelity to NN | 98.9% ± 0.1% |
+| Tree standalone accuracy | 84.6% ± 1.2% |
 | Crit8 feature importance (SHAP) | 97.5% |
 
 ## Dependencies
